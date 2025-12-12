@@ -65,6 +65,13 @@ Primitive types exist but are usually wrapped:
 ## 3. Entities and Ships
 
 Entities represent characters or groups.
+Attributes like `confidence` affect runtime probability calculations.
+
+Valid confidence levels:
+- `ARROGANT` (Ignores warnings, high critical success/failure rate)
+- `HIGH` (Standard probability boost)
+- `SHAKY` (Prone to fumbling)
+- `DOOMED` (Critical failure guaranteed eventually)
 
 ```falcon
 entity HanSolo : Smuggler {
@@ -103,11 +110,18 @@ Standard control flow exists but is discouraged.
 
 Preferred constructs:
 
-* `never_tell_me_the_odds()`
-* `this_is_the_way()`
-* `its_a_trap()`
+- `do_or_do_not { ... }`
+  Atomic execution. There is no `try`. If the block fails, state rolls back.
 
-These alter execution probability and branching behavior.
+- `never_tell_me_the_odds { ... }`
+  Forces execution even if the probability of success is calculated as 0.
+  Ignores `HyperdriveFailure` signals.
+
+- `this_is_the_way { ... }`
+  A strict loop that continues until the condition is met or the entity is destroyed.
+
+- `its_a_trap(condition) { ... }`
+  A reactive guard clause that triggers immediately if the condition becomes true.
 
 ---
 
@@ -122,7 +136,17 @@ Common exceptions:
 * ItIsATrap
 * HighGroundAlreadyTaken
 
-Unhandled exceptions are considered canon events.
+Handling exceptions uses the `deflect` keyword (for Force users) or `evade` (for Smugglers).
+
+```falcon
+attempt {
+    negotiate()
+} deflect (SithLightning e) {
+    block(e)
+}
+```
+
+Unhandled exceptions are considered canon events and cannot be retried.
 
 ---
 
