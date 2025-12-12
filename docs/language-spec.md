@@ -6,12 +6,26 @@
 - Episodes may be grouped under an `era`
 - Execution begins at `scene main()` if present
 
-Valid eras include:
-- HIGH_REPUBLIC
-- FALL_OF_JEDI
-- AGE_OF_EMPIRE
-- NEW_REPUBLIC
-- FIRST_ORDER
+**Eras** act as the runtime environment configuration. They dictate available technology,
+background thread hostility (Imperial entanglements), and the stability of the Force (probability engine).
+
+Usage:
+```falcon
+episode "Episode IV" set_in AGE_OF_EMPIRE { ... }
+```
+
+Era definitions:
+
+- `HIGH_REPUBLIC` (Legacy Stable)
+  High resource availability, strict protocols, low entropy.
+- `FALL_OF_JEDI` (System Collapse)
+  High entropy, frequent betrayals (state corruption), crumbling dependencies.
+- `AGE_OF_EMPIRE` (Authoritarian/Strict)
+  Heavy monitoring, high probability of interception, scarce resources.
+- `NEW_REPUBLIC` (Reconstruction)
+  Fragmented dependencies, optimistic concurrency, shaky infrastructure.
+- `FIRST_ORDER` (Unstable Derivative)
+  Volatile runtime, prone to catastrophic, explosive failures.
 
 ---
 
@@ -67,11 +81,18 @@ Primitive types exist but are usually wrapped:
 Entities represent characters or groups.
 Attributes like `confidence` affect runtime probability calculations.
 
+**Confidence** acts as a weight on the internal random number generator.
+It determines the success rate of risky operations and the likelihood of `HyperdriveFailure`.
+
 Valid confidence levels:
-- `ARROGANT` (Ignores warnings, high critical success/failure rate)
-- `HIGH` (Standard probability boost)
-- `SHAKY` (Prone to fumbling)
-- `DOOMED` (Critical failure guaranteed eventually)
+- `ARROGANT` (Multiplier: 2.0x / Risk: Critical)
+  Ignores all warnings. Success is highly likely, but failure results in immediate system crash.
+- `HIGH` (Multiplier: 1.5x / Risk: Standard)
+  Standard probability boost. Reduces exception frequency.
+- `SHAKY` (Multiplier: 0.8x / Risk: Elevated)
+  Prone to fumbling. Operations may retry automatically due to hesitation.
+- `DOOMED` (Multiplier: 0.0x / Risk: Absolute)
+  Critical failure is guaranteed eventually. Used for entities that must fail to advance the narrative.
 
 ```falcon
 entity HanSolo : Smuggler {
@@ -91,7 +112,23 @@ ship MillenniumFalcon {
 
 ---
 
-## 4. Scenes
+## 4. Hyperdrive Mechanics
+
+The **Hyperdrive** is the runtime execution engine. It manages the transition between scenes.
+
+**Hyperdrive Failure** is a specific runtime state where execution stalls.
+Unlike a crash, the process is still alive but cannot move forward (it is "drifting").
+
+Causes of Hyperdrive Failure:
+- **Calculation Timeout**: The navicomputer cannot find a safe route (infinite loop).
+- **Motivator Damage**: The CPU branch predictor has failed.
+- **Singularity**: Division by zero.
+
+Recovery requires percussive maintenance (`hit_it_with_a_wrench()`) or a complete system restart.
+
+---
+
+## 5. Scenes
 
 Scenes are execution units.
 State persists across scenes unless retconned.
@@ -104,7 +141,7 @@ scene board_ship() {
 
 ---
 
-## 5. Control Flow
+## 6. Control Flow
 
 Standard control flow exists but is discouraged.
 
@@ -125,7 +162,7 @@ Preferred constructs:
 
 ---
 
-## 6. Exceptions
+## 7. Exceptions
 
 Exceptions are lore-based and mandatory to consider.
 
@@ -150,7 +187,7 @@ Unhandled exceptions are considered canon events and cannot be retried.
 
 ---
 
-## 7. Retcons
+## 8. Retcons
 
 Reality may be rewritten using explicit annotations.
 
@@ -162,7 +199,7 @@ Retcons increase narrative instability and should be used sparingly.
 
 ---
 
-## 8. Determinism
+## 9. Determinism
 
 * Syntax is deterministic
 * Parsing is deterministic
