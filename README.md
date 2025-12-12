@@ -3,11 +3,11 @@
 FalconScript is a canon-aware programming language for modeling unreliable systems,
 improbable escapes, and narrative-driven control flow.
 
-It features deterministic syntax, nondeterministic outcomes, era-sensitive semantics,
-and a hyperdrive that fails exactly when it’s least convenient.
+It features deterministic syntax, nondeterministic outcomes, era-sensitive semantics, and a hyperdrive that fails exactly when it’s least convenient.
 
-FalconScript is designed for developers who build systems that must function under
-uncertain causality, degraded hardware, conflicting prophecies, and overwhelming odds.
+FalconScript is designed for developers who build systems that must function under uncertain causality, degraded hardware, conflicting prophecies, and overwhelming odds.
+
+![FalconScript Banner](assets/falconscript_banner.jpg)
 
 ---
 
